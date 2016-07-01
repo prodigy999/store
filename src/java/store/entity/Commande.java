@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,38 +28,41 @@ import javax.persistence.TemporalType;
  */
 @Entity
 public class Commande implements Serializable {
-    
+
     public enum Etat {
-        
-        VALIDE, FINALISE, EXPEDIE
+
+        VALIDE, FINALISE, EXPEDIE;
     }
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
+    @Enumerated(EnumType.STRING)
+    private Etat etat;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCommande;
-    
+
     @ManyToOne
     @JoinColumn(name = "utilisateur_id")
     private Utilisateur utilisateur;
-    
-    @ManyToMany    
-    @JoinTable(name = "commande_article")
+
+    @ManyToMany
+    @JoinTable(name = "article_commande")
     private List<Article> articles = new ArrayList<>();
-    
+
     public Long getId() {
         return id;
     }
 
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
+    public Etat getEtat() {
+        return etat;
     }
 
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
+    public void setEtat(Etat etat) {
+        this.etat = etat;
     }
 
     public List<Article> getArticles() {
@@ -66,6 +71,14 @@ public class Commande implements Serializable {
 
     public void setArticles(List<Article> articles) {
         this.articles = articles;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
     }
 
     public Date getDateCommande() {
@@ -104,5 +117,5 @@ public class Commande implements Serializable {
     public String toString() {
         return "utilisateur.entity.Commande[ id=" + id + " ]";
     }
-    
+
 }

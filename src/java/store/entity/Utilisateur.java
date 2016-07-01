@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +23,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Utilisateur implements Serializable {
 
-    private enum TypeUtil{
+    public enum TypeUtil{
        
         CLIENT, EXPEDITION, ADMIN
     }
@@ -32,14 +34,25 @@ public class Utilisateur implements Serializable {
     private Long id;
     
     private String login;
-    private Long motDePasse;
+    private String motDePasse;
     private String adresse;
+    
+    @Enumerated(EnumType.STRING)
+    private TypeUtil typeUtil;
     
     @OneToMany(mappedBy = "utilisateur")
     private List<Commande> commandes = new ArrayList<>();
 
     public Long getId() {
         return id;
+    }
+
+    public TypeUtil getTypeUtil() {
+        return typeUtil;
+    }
+
+    public void setTypeUtil(TypeUtil typeUtil) {
+        this.typeUtil = typeUtil;
     }
 
     public List<Commande> getCommandes() {
@@ -58,11 +71,11 @@ public class Utilisateur implements Serializable {
         this.login = login;
     }
 
-    public Long getMotDePasse() {
+    public String getMotDePasse() {
         return motDePasse;
     }
 
-    public void setMotDePasse(Long motDePasse) {
+    public void setMotDePasse(String motDePasse) {
         this.motDePasse = motDePasse;
     }
 

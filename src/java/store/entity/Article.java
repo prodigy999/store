@@ -30,19 +30,19 @@ public class Article implements Serializable {
     private Long stock;
     private Long prix;
     
-    @ManyToMany(mappedBy = "article")
-    private List<Commande> commandes = new ArrayList<>();
+    @ManyToMany(mappedBy = "articles")
+    private List<Commande> commandesArticles = new ArrayList<>();
 
     public Long getId() {
         return id;
     }
 
-    public List<Commande> getCommandes() {
-        return commandes;
+    public List<Commande> getCommandesArticles() {
+        return commandesArticles;
     }
 
-    public void setCommandes(List<Commande> commandes) {
-        this.commandes = commandes;
+    public void setCommandesArticles(List<Commande> commandesArticles) {
+        this.commandesArticles = commandesArticles;
     }
 
     public String getNom() {
